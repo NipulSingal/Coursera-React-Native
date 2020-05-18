@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
-import Menu from './Menu';
-import Dishdetail from './Dishdetail';
+import Menu from './MenuComponent';
+import Dishdetail from './DishdetailComponent';
 import About from './AboutComponent';
 import Contact from './ContactComponent'
 import { View, Platform , Image, StyleSheet,ScrollView ,Text } from 'react-native';
-import Home from './Home'
+import Home from './HomeComponent'
 import { createStackNavigator , createDrawerNavigator, DrawerItems , SafeAreaView} from 'react-navigation';
 import {Icon} from 'react-native-elements'
 

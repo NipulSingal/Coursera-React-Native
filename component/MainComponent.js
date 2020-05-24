@@ -12,6 +12,7 @@ import Dishdetail from './DishdetailComponent';
 import Contact from './ContactComponent';
 import About from './AboutComponent';
 import Reservation from './ReservationComponent';
+import Favorites from './FavoriteComponent';
 
 import { connect } from 'react-redux';
 import { fetchDishes, fetchComments, fetchPromos, fetchLeaders } from '../redux/ActionCreators';
@@ -227,6 +228,40 @@ function ReservationNavigatorScreen(){
         </ReservationNavigator.Navigator>
     );
 }
+const FavoriteNavigator = createStackNavigator();
+
+function FavoriteNavigatorScreen(){
+    return(
+        <FavoriteNavigator.Navigator
+            initialRouteName='Favorites'
+            screenOptions={HeaderOptions}
+        >
+            <MenuNavigator.Screen
+                name="Favorites"
+                component={Favorites}
+                options={
+                    ({navigation}) => ({
+                        headerLeft: () => (
+                            <Icon 
+                                name='menu' 
+                                size={24}
+                                color='white'
+                                onPress={() => 
+                                    navigation.toggleDrawer()}
+                            />
+                        )
+                    
+                    })
+                 }
+            />
+            <MenuNavigator.Screen
+                name="Dishdetail"
+                component={Dishdetail}
+                options={{ headerTitle: "Dish Detail"}}
+            />            
+        </FavoriteNavigator.Navigator>
+    );
+}
 
 
 const MainNavigator = createDrawerNavigator();
@@ -289,7 +324,21 @@ function MainNavigatorDrawer() {
                 options={{
                     drawerIcon: ({tintColor}) => (
                         <Icon
-                            name='info-circle'
+                            name='cutlery'
+                            type='font-awesome'
+                            size={24}
+                            color={tintColor}
+                        />
+                    )
+                }}                
+            />
+            <MainNavigator.Screen 
+                name="My Favorites"   
+                component={FavoriteNavigatorScreen} 
+                options={{
+                    drawerIcon: ({tintColor}) => (
+                        <Icon
+                            name='heart'
                             type='font-awesome'
                             size={24}
                             color={tintColor}

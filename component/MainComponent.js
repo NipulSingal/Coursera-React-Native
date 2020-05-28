@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { ScrollView, Text, View, Image, StyleSheet } from 'react-native';
+import { ScrollView, Text, View, Image, StyleSheet , ToastAndroid} from 'react-native';
+// import NetInfo from "@react-native-community/netinfo";
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createDrawerNavigator, DrawerItemList } from '@react-navigation/drawer';
@@ -13,6 +14,7 @@ import Contact from './ContactComponent';
 import About from './AboutComponent';
 import Reservation from './ReservationComponent';
 import Favorites from './FavoriteComponent';
+import Login from './LoginComponent';
 
 import { connect } from 'react-redux';
 import { fetchDishes, fetchComments, fetchPromos, fetchLeaders } from '../redux/ActionCreators';
@@ -262,7 +264,36 @@ function FavoriteNavigatorScreen(){
         </FavoriteNavigator.Navigator>
     );
 }
+const LoginNavigator = createStackNavigator();
 
+
+function LoginNavigatorScreen() {
+    return(
+        <LoginNavigator.Navigator
+            initialRouteName='Login'
+            screenOptions={HeaderOptions}
+        >
+            <HomeNavigator.Screen
+                name="Login"
+                component={Login}
+                options={
+                    ({navigation}) => ({
+                        headerLeft: () => (
+                            <Icon 
+                                name='menu' 
+                                size={24}
+                                color='white'
+                                onPress={() => 
+                                    navigation.toggleDrawer()}
+                            />
+                        )
+                    
+                    })
+                 }
+            />
+        </LoginNavigator.Navigator>
+    );
+}
 
 const MainNavigator = createDrawerNavigator();
 
@@ -275,6 +306,21 @@ function MainNavigatorDrawer() {
             }}
             drawerContent={props => <CustomDrawerContentComponent {...props}/>}
         >
+            <MainNavigator.Screen 
+                name="Login"       
+                component={LoginNavigatorScreen} 
+                options={{
+                    drawerIcon: ({tintColor}) => (
+                        <Icon
+                            name='sign-in'
+                            type='font-awesome'
+                            size={24}
+                            color={tintColor}
+                        />
+                    )
+                }}
+
+            />
             <MainNavigator.Screen 
                 name="Home"       
                 component={HomeNavigatorScreen} 
@@ -371,7 +417,35 @@ componentDidMount() {
     this.props.fetchComments();
     this.props.fetchPromos();
     this.props.fetchLeaders();
+
+    // NetInfo.getConnectionInfo()
+    //     .then((connectionInfo)=>{
+    //         ToastAndroid.show('Initial Network Connectivity Type: '+connectionInfo.type+', effectiveType: '+connectionInfo.effectiveType,ToastAndroid.LONG)
+    //     })
+    //     NetInfo.addEventListener('connectionOnChange',this.handleConnectivityChange)
 }
+    // componentWillUnmount(){
+    //     NetInfo.removeEventListener('connectionChange',this.handleConnectivityChange)
+    // }
+
+    // handleConnectivityChange=(connectionInfo)=>{
+    //     switch (connectionInfo.type) {
+    //         case 'none':
+    //           ToastAndroid.show('You are now offline!', ToastAndroid.LONG);
+    //           break;
+    //         case 'wifi':
+    //           ToastAndroid.show('You are now connected to WiFi!', ToastAndroid.LONG);
+    //           break;
+    //         case 'cellular':
+    //           ToastAndroid.show('You are now connected to Cellular!', ToastAndroid.LONG);
+    //           break;
+    //         case 'unknown':
+    //           ToastAndroid.show('You now have unknown connection!', ToastAndroid.LONG);
+    //           break;
+    //         default:
+    //           break;
+    //       }
+    // }
   render() {
  
     return(
